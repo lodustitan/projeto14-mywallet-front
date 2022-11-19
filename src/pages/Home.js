@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
+import useLocalStorage from "../components/localStorage";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Data from "../components/Data";
@@ -8,11 +9,28 @@ import Button from "../components/Button";
 function Home(){
 
     const navigate = useNavigate();
-    const [dados] = useState([
-        {date: "30/11", value: 5217.32, text: "funfando plenamente"},
-        {date: "30/11", value: -322.32, text: "funfando plenamente"},
-        {date: "30/11", value: -2300.02, text: "funfando plenamente"},
-    ]); 
+    const [storage, setStorage] = useLocalStorage("uid");
+    const [dados, setDados] = useState();
+
+    useEffect(()=>{
+        if(!storage)
+        {
+            navigate("/sign-in");
+        }
+        else
+        {
+            axios.post("http://localhost:5000/mywallet", {}, {headers: {uid: storage}})
+            .then((res) => {
+                console.log(res)
+                const convertedData = res.data.map((data) => {
+                    return {uid:data.uid, date: data.date, value: data.value, text: data.description, type: data.type};
+                }) 
+                setDados(convertedData);
+                console.log(convertedData)
+            })
+        }
+
+    }, [])
 
     return(
         <Style>
@@ -22,13 +40,22 @@ function Home(){
             <Registers>
                 <DataList>
                     {dados? 
-                        dados.map(each => {
-                            return <Data date={each.date} value={each.value}>{each.text}</Data>
+                        dados.map((each, i) => {
+                            return <Data key={i} uid={each.uid} date={each.date} value={each.value} type={each.type}>{each.text}</Data>
                         }): "Não há nada aqui"}
                 </DataList>
                 <Balance>
                     <span>Saldo</span>
-                    <span>{dados && dados.reduce((previousValue, currentValue) => { return previousValue + currentValue.value}, 0).toFixed(2)}</span>
+                    <span>
+                        {dados && dados.reduce(
+                            (previousValue, currentValue) => { 
+                                if(currentValue.type === "entrada")
+                                    return previousValue + currentValue.value
+                                else
+                                    return previousValue - currentValue.value
+                            }, 0).toFixed(2)
+                        }
+                    </span>
                 </Balance>
             </Registers>
             <Panel>
@@ -40,6 +67,10 @@ function Home(){
 }
 
 const Style = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
     width: 90%;
     height: 100%;
     border: none;
@@ -53,6 +84,7 @@ const Registers = styled.div`
     background-color: white;
     border-radius: .4rem;
     overflow-y: auto;
+    margin-bottom: 1rem;
     color: black;
 `;
 const DataList = styled.div`
@@ -71,6 +103,7 @@ const Balance = styled.div`
 const Header = styled.div`
     height: 5%;
     width: 100%;
+    margin-bottom: 1rem;
     display: flex;
     span {
         color: white;
@@ -79,7 +112,7 @@ const Header = styled.div`
     }
 `;
 const Panel = styled.div`
-    height: 15%;
+    height: 8%;
     width: 100%;
     display: flex;
 `;

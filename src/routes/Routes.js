@@ -23,6 +23,9 @@ function ReactRoutes() {
 
 const Style = styled.div`
 
+	display: flex;
+    justify-content: center;
+	
 	@media screen and (min-width: 764px) {
 		width: 524px;
 		height: 100vh;

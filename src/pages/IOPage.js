@@ -1,9 +1,12 @@
+import axios from "axios";
 import { useState } from "react";
+import useLocalStorage from "../components/localStorage";
 import styled from "styled-components";
 import Button from "../components/Button";
 import Input from "../components/Input";
 
 function IOPage({types, onClick}){
+    const [storage, setStorage] = useLocalStorage("uid");
     const [type] = useState(types);
     const [value, setValue] = useState();
     const [desc, setDesc] = useState();
@@ -11,6 +14,10 @@ function IOPage({types, onClick}){
     function getType(){
         if (type === 'entrada') return 'entrada';
         else return 'saida';
+    }
+    function requestNewIO(){
+        axios.post("http://localhost:5000/wallet", {value, description: desc, type}, {headers: {ownerUid: storage}})
+        .then(res => {console.log(res)})
     }
 
     return (
@@ -22,7 +29,7 @@ function IOPage({types, onClick}){
             <Form>
                 <Input type="number" placeholder="Valor" value={value} onChange={(e)=> setValue(e.target.value)}/>
                 <Input type="text" placeholder="Descrição" value={desc} onChange={(e)=> setDesc(e.target.value)}/>
-                <Button onClick={onClick}>Salvar {getType()}</Button>
+                <Button onClick={requestNewIO}>Salvar {getType()}</Button>
             </Form>
         </Style>
     )

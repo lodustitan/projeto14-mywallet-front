@@ -22,8 +22,8 @@ function Signin(){
                 password: senha
             })
         .then(res => {
-            setStorage(res.data.uid);
-            console.log(res);
+            const stringifycation = (res.data.uid)?.replaceAll("\"", "");
+            setStorage(stringifycation);
             if(res.data.uid)
                 navigate("/");
         });
