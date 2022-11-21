@@ -24,11 +24,11 @@ function IOPage({types, onClick}){
     }
     function requestNewIO(){
         if(pageFunc === "create"){
-            axios.post("http://localhost:5000/wallet", {value, description: desc, type}, {headers: {ownerUid: storage.uid}})
+            axios.post("https://mywallet-back-y3yn.onrender.com/wallet", {value, description: desc, type}, {headers: {ownerUid: storage.uid}})
             .then(res => {navigate("/")})
         }
         else{
-            axios.put("http://localhost:5000/edit", {value, description: desc, uid }, {headers: {ownerUid: storage.uid}})
+            axios.put("https://mywallet-back-y3yn.onrender.com/edit", {value, description: desc, uid }, {headers: {ownerUid: storage.uid}})
             .then(res => {navigate("/")})
         }
     }

@@ -29,7 +29,7 @@ function Home(){
         }
         else
         {
-            axios.post("http://localhost:5000/mywallet", {}, {headers: {uid: storage.uid}})
+            axios.post("https://mywallet-back-y3yn.onrender.com/mywallet", {}, {headers: {uid: storage.uid}})
             .then((res) => {
                 console.log(res)
                 const convertedData = res.data.map((data) => {

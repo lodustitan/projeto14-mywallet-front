@@ -16,7 +16,7 @@ function Signup(){
     const [senha2, setSenha2] = useState();
 
     function requestRegister(){
-        axios.post("http://localhost:5000/sign-up", 
+        axios.post("https://mywallet-back-y3yn.onrender.com/sign-up", 
             {
                 name: nome,
                 email,
