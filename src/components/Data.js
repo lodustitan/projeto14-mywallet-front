@@ -10,8 +10,10 @@ function Data({uid, date, value, type, children, onClick}){
 
     function deleteMyData()
     {
-        axios.delete("http://localhost:5000/wallet", {headers: {uid: Uid, owneruid: storage}})
-        .then(res => console.log(res));
+        if(window.confirm("Deseja apagar mesmo seu wallet?")){
+            axios.delete("http://localhost:5000/wallet", {headers: {uid: Uid, owneruid: storage}})
+            .then(res => console.log(res));
+        }
     }
 
     return (

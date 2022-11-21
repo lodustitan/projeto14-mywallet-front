@@ -5,9 +5,11 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import ActionText from "../components/ActionText";
 import png_myWallet from "../assets/image/MyWallet.png";
+import { useNavigate } from "react-router-dom";
 
 function Signup(){
 
+    const navigate = useNavigate();
     const [nome, setNome] = useState();
     const [email, setEmail] = useState();
     const [senha, setSenha] = useState();
@@ -32,7 +34,7 @@ function Signup(){
                 <Input placeholder="Senha" value={senha} onChange={(e)=>setSenha(e.target.value)} />
                 <Input placeholder="Confirme a senha" value={senha2} onChange={(e)=> setSenha2(e.target.value)} />
                 <Button onClick={requestRegister}>Cadastrar</Button>
-                <ActionText>Já tem uma conta? Entre agora!</ActionText>
+                <ActionText onClick={() => navigate("/sign-in")}>Já tem uma conta? Entre agora!</ActionText>
             </Content>
         </Style>
     )
@@ -56,7 +58,7 @@ const Content = styled.div`
     justify-content: space-around;
     align-items: center;
     
-    height: 180px;
+    height: 260px;
     width: 100%;
     img {
         height: 2rem;

@@ -10,6 +10,7 @@ import styled from "styled-components";
 
 /* Icons */
 import { CgRemove, CgAdd } from "react-icons/cg";
+import { BiExit } from "react-icons/bi";
 
 /* Tools */
 import axios from "axios";
@@ -28,7 +29,7 @@ function Home(){
         }
         else
         {
-            axios.post("http://localhost:5000/mywallet", {}, {headers: {uid: storage}})
+            axios.post("http://localhost:5000/mywallet", {}, {headers: {uid: storage.uid}})
             .then((res) => {
                 console.log(res)
                 const convertedData = res.data.map((data) => {
@@ -51,11 +52,16 @@ function Home(){
         else
             navigate("saida", {state: {...obj, page: "edit  "}});
     }
+    function logout(){
+        sessionStorage.clear();
+        navigate("/sign-in");
+    }
 
     return(
         <Style>
             <Header>
                 <span>Olá, {storage && storage.name}</span>
+                <BiExit onClick={logout} />
             </Header>
             <Registers>
                 <DataList>
@@ -152,6 +158,11 @@ const Header = styled.div`
     width: 100%;
     margin-bottom: 1rem;
     display: flex;
+    justify-content: space-between;
+    svg {
+        color: white;
+        font-size: 2rem;
+    }
     span {
         color: white;
         font-size: 2rem;

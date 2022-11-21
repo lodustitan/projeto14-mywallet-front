@@ -36,7 +36,7 @@ function Signin(){
                 <Input placeholder="E-Mail" value={email} onChange={e => setEmail(e.target.value)} />
                 <Input placeholder="Senha" value={senha}  onChange={e => setSenha(e.target.value)}/>
                 <Button onClick={requestLogin}>Entrar</Button>
-                <ActionText>Primeira vez? Cadastre-se!</ActionText>
+                <ActionText onClick={() => navigate("/sign-up")}>Primeira vez? Cadastre-se!</ActionText>
             </Content>
         </Style>
     )
