@@ -9,6 +9,7 @@ function Input({value, placeholder, type, onChange}){
 const Style = styled.input`
     width: 90%;
     height: 2rem;
+    border-radius: 5px;
     border: none;
     outline: none;
 `;

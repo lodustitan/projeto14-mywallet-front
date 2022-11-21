@@ -10,9 +10,12 @@ function Button({value, children, onClick}){
 
 const Style = styled.button`
     width: 90%;
-    height: 2rem;
+    padding: 1rem 0;
     background-color: #A328D6;
+    font-weight: 600;
+    font-size: 1.2rem;
     color: white;
+    border-radius: 5px;
     border: none;
     outline: none;
 `;

@@ -1,10 +1,19 @@
-import styled from "styled-components";
-import axios from "axios";
-import useLocalStorage from "../components/localStorage";
+/* Hooks */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import useLocalStorage from "../components/localStorage";
+
+/* Components */
 import Data from "../components/Data";
 import Button from "../components/Button";
+import styled from "styled-components";
+
+/* Icons */
+import { CgRemove, CgAdd } from "react-icons/cg";
+
+/* Tools */
+import axios from "axios";
+
 
 function Home(){
 
@@ -29,8 +38,19 @@ function Home(){
                 console.log(convertedData)
             })
         }
+    }, []);
 
-    }, [])
+    function edit(uid, type){
+        const obj = dados.find((a)=>{
+            if(a.uid === uid)
+                return a;
+        });
+
+        if(type === "entrada")
+            navigate("entrada", {state: {...obj, page: "edit"}});
+        else
+            navigate("saida", {state: {...obj, page: "edit  "}});
+    }
 
     return(
         <Style>
@@ -41,7 +61,7 @@ function Home(){
                 <DataList>
                     {dados? 
                         dados.map((each, i) => {
-                            return <Data key={i} uid={each.uid} date={each.date} value={each.value} type={each.type}>{each.text}</Data>
+                            return <Data onClick={() => edit(each.uid, each.type)} key={i} uid={each.uid} date={each.date} value={each.value} type={each.type}>{each.text}</Data>
                         }): "Não há nada aqui"}
                 </DataList>
                 <Balance>
@@ -59,13 +79,37 @@ function Home(){
                 </Balance>
             </Registers>
             <Panel>
-                <Button onClick={() => navigate("entrada")}>Nova Entrada</Button>
-                <Button onClick={() => navigate("saida")}>Nova Saida</Button>
+                <Button onClick={() => navigate("entrada", {state: {page: "create"}})}>
+                    <StyledButton>
+                        <CgAdd />
+                        <p>Nova entrada</p>
+                    </StyledButton>
+                </Button>
+                <Button onClick={() => navigate("saida", {state: {page: "create"}})}>
+                    <StyledButton>
+                        <CgRemove />
+                        <p>Nova saida</p>
+                    </StyledButton>
+                </Button>
             </Panel>
         </Style>
     )
 }
 
+const StyledButton = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 1rem;
+    svg {
+        font-size: 1.5rem;
+    }
+    p { 
+        font-size: 1rem;
+        width: 50%;
+        text-align: left;
+    }
+    `;
 const Style = styled.div`
     display: flex;
     flex-direction: column;
@@ -80,7 +124,7 @@ const Registers = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 80%;
+    height: 70%;
     background-color: white;
     border-radius: .4rem;
     overflow-y: auto;
@@ -115,9 +159,13 @@ const Header = styled.div`
     }
 `;
 const Panel = styled.div`
-    height: 8%;
+    height: 15%;
     width: 100%;
     display: flex;
+    justify-content: space-between;
+    button {
+        width: 48%;
+    }
 `;
 
 export default Home;

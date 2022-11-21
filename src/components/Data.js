@@ -3,7 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import useLocalStorage from "./localStorage";
 
-function Data({uid, date, value, type, children}){
+function Data({uid, date, value, type, children, onClick}){
 
     const [Uid] = useState(uid);
     const [storage] = useLocalStorage("uid");
@@ -18,7 +18,7 @@ function Data({uid, date, value, type, children}){
         <Style type={type}>
             <div className="data">{date}</div>
             <div className="boxValue">
-                <div className="texto">{children}</div>
+                <div className="texto" onClick={onClick}>{children}</div>
                 <div className="valorBox">
                     <div className="valor">{value.toFixed(2)}</div>
                     <div onClick={deleteMyData}>x</div>
