@@ -9,7 +9,7 @@ import Button from "../components/Button";
 function Home(){
 
     const navigate = useNavigate();
-    const [storage, setStorage] = useLocalStorage("uid");
+    const [storage] = useLocalStorage("uid");
     const [dados, setDados] = useState();
 
     useEffect(()=>{
@@ -35,7 +35,7 @@ function Home(){
     return(
         <Style>
             <Header>
-                <span>Olá, Fulano</span>
+                <span>Olá, {storage && storage.name}</span>
             </Header>
             <Registers>
                 <DataList>
@@ -45,7 +45,7 @@ function Home(){
                         }): "Não há nada aqui"}
                 </DataList>
                 <Balance>
-                    <span>Saldo</span>
+                    <span className="saldo">Saldo</span>
                     <span>
                         {dados && dados.reduce(
                             (previousValue, currentValue) => { 
@@ -88,16 +88,19 @@ const Registers = styled.div`
     color: black;
 `;
 const DataList = styled.div`
-    height: 90%;
+    height: 100%;
     color: black;
 `;
 const Balance = styled.div`
     display: flex;
     justify-content: space-between;
-    height: 10%;
-    span{
+    padding: 1rem;
+    span {
         color: black;
-        font-weight: 400;
+    }
+    .saldo {
+        font-weight: 700;
+        font-size: 1.4rem;
     }
 `;
 const Header = styled.div`

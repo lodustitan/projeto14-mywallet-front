@@ -23,7 +23,8 @@ function Signin(){
             })
         .then(res => {
             const stringifycation = (res.data.uid)?.replaceAll("\"", "");
-            setStorage(stringifycation);
+            setStorage({uid: stringifycation, name: res.data.name});
+            console.log(res.data, "login")
             if(res.data.uid)
                 navigate("/");
         });
@@ -48,7 +49,6 @@ const Style = styled.div`
     align-items: center;
 
     color: white;
-    background-color: #555;
     width: 100%;
     height: 100vh;
 

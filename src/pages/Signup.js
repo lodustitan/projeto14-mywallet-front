@@ -45,7 +45,6 @@ const Style = styled.div`
     align-items: center;
 
     color: white;
-    background-color: #555;
     width: 100%;
     height: 100vh;
 

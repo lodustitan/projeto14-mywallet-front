@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useLocalStorage from "../components/localStorage";
 import styled from "styled-components";
@@ -6,6 +7,7 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 
 function IOPage({types, onClick}){
+    const navigate = useNavigate();
     const [storage, setStorage] = useLocalStorage("uid");
     const [type] = useState(types);
     const [value, setValue] = useState();
@@ -17,12 +19,11 @@ function IOPage({types, onClick}){
     }
     function requestNewIO(){
         axios.post("http://localhost:5000/wallet", {value, description: desc, type}, {headers: {ownerUid: storage}})
-        .then(res => {console.log(res)})
+        .then(res => {navigate("/")})
     }
 
     return (
         <Style>
-            
             <Header>
                 <span>Nova {getType()}</span>
             </Header>
